@@ -2,7 +2,7 @@
 
 ### 1.1.3
 Combinations (or s-expressions) are paren-enclosed lists in which the first entry is the operator and the rest are operands. Evaluation is inherently tree-like: an expression like
-```s
+```scm
 (* (+ 2 (* 4 6))
     (+ 3 5 7))
 ```
@@ -15,7 +15,7 @@ When an expression includes a "compound procedure" (function), we evaluate it wi
 
 ### 1.2.1
 All recursion is not equivalent. The standard recursive model is called **linear recursion**, where the expression evaluates with the help of a chain of deferred operations.
-```s
+```scm
 (define (factorial n)
     (if (= n 1)
         1
@@ -24,7 +24,7 @@ All recursion is not equivalent. The standard recursive model is called **linear
 As we evaluate, say, `(factorial 5)`, we first _expand_ deferred multiplications (`(* 5 (factorial 4))`, etc.) until we hit the base case, then _reduce_ the expression back into the answer. The steps involved (to evaluate operations) and the memory involved (to track the deferred operations) scale linearly with `n`.
 
 Another form of "recursion" might look like this:
-```s
+```scm
 (define (factorial n)
     (define (recur-iterative total counter)
         (if (> counter n)

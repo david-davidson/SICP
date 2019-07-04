@@ -1,4 +1,5 @@
-# _Structure and Interpretation of Computer Programs_: Notes and Exercises
+# Structure and Interpretation of Computer Programs
+## Notes and Exercises
 
 This repo collects notes and exercises from _SICP_. The notes live in Markdown files like `chapters/1/README.md`, and the exercises live in individual files like `chapters/1/1.1.scm`.
 
