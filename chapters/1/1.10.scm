@@ -14,7 +14,7 @@
 (A 2 4) ; 65536
 (A 3 3) ; 65536
 
-; Now consider the following functions, mostly defined in terms of `A`...
+; Now consider the following functions, defined in terms of `A`...
 (define (f n) (A 0 n))
 
 (define (g n) (A 1 n))

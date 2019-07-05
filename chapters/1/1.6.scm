@@ -18,7 +18,7 @@
 (define (average x y)
     (/ (+ x y) 2))
 
-; Loopss through successive guesses
+; Loops through successive guesses
 (define (sqrt-iter guess x)
     (cond-if (good-enough? guess x); rather than `if`
              guess

@@ -18,6 +18,6 @@
         (add-two (dec a) (inc b))))
 
 #|
-`add-one` is recursive and `add-two` is linear. `add-one` relies on deferred operations to track its
-state; `add-two` captures all state in `a` and `b`.
+`add-one` is recursive and `add-two` is iterative. `add-one` relies on deferred operations to track
+its state; `add-two` captures all state in `a` and `b`.
 |#
