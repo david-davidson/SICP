@@ -76,12 +76,18 @@ sequence of arguments to `iter` resulting from `(expt-iter-faster 2 5)`:
 |#
 
 (define (expt-iter-faster b n)
-    (define (iter product b n)
-        (cond ((= n 0) product)
-              ((even? n) (iter product
+    (define (iter a b n)
+        (cond ((= n 0) a)
+              ((even? n) (iter a
                                (square b)
                                (/ n 2)))
-              (else (iter (* product b)
+              (else (iter (* a b)
                           b
                           (- n 1)))))
    (iter 1 b n))
+
+#|
+EDIT: this "clever" solution was, in fact strongly hinted at in the book--I just missed it there!
+It follows from the observation that `(b^(n/2))^2 = (b^2)^(n/2)`; SICP recommends adding the
+`a` variable such that the product `a(b^n)` remains constant iteration over iteration.
+|#
