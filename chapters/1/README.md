@@ -37,11 +37,11 @@ Another form of "recursion" might look like this:
 
 Here, we track state not through deferred operations but through explicit variable values: `product`, `counter`, and `n`. You could pause this version of factorial partway through running, capture the values of all state variables, and simply restart it from those variables; the same is _not_ true of the linear-recursive process, with its implicit stack state. This is called a **linear-iterative** process. This process doesn't show the same pattern of expansion and contraction; the number of steps grows with `n`, but memory consumption is constant.
 
-Note that `recur-iterative` is still a recursive _function_: it calls itself. A process can be conceptually iterative and still be implemented by recursive function calls.
+Note that `recur-iterative` is still a recursive _function_: it calls itself. **A process can be conceptually iterative and still be implemented by recursive function calls.**
 
 This mode of "recursion" is basically equivalent to a `for` or `while` loop in C-style languages. In many such languages, recursion is evaluated such that multiple recursive function calls consume memory linearly, _even when no computation is deferred_. (This is why iteration requires constructs like `for` and `while`.) For these languages, the two forms of `factorial` are equivalent; only **tail-recursive** language implementations (like Scheme) treat them differently.
 
-For a function to be tail-recursive, there must be nothing for it left to do after it completes execution other than call itself with the latest value. (This is called a **tail call**.) At that point, with no deferred work, the compiler can safely discard the function's stack frame—hence the constant memory usage.
+For a function to be tail-recursive, there must be nothing for it left to do after it completes execution other than call itself with the latest value. (This is called a **tail call**.) At that point, with no deferred work, the compiler can safely discard the function's frame—hence the constant memory usage.
 
 ### 1.2.2
 When a function calls itself multiple times, it's called **tree recursion**. The Fibonacci function is a classic example:
@@ -55,6 +55,11 @@ When a function calls itself multiple times, it's called **tree recursion**. The
 Tree-recursive functions end up duplicating a great deal of work (`(fibonacci 5)` evaluates `(fibonacci 3)` twice), which makes them a great candidate for refactoring into iterative form. While linear recursion only consumes more _space_ than iteration, tree recursion (because of that duplicate work) also consumes more _time_.
 
 In general, the number of steps required by a tree-recursive process is proportional to the number of nodes in the tree, while the space required is proportional to the maximum depth of the tree. (That's because, at any time, all we need to keep track of is the call stack back to the root of the tree.)
+
+### 1.2.4
+To speed up linear processes, consider **successive squaring**: when the counter is odd, increment it (and perform a standard unit of algorithmic work); when it's even, _double_ it (and double the algorithm's work, whatever that entails). e.g., [1.16.scm](1.16.scm).
+
+A good generic strategy for converting algorithms from recursive to iterative: set up the arguments (counter, accumulator, etc.) such that, on every iteration, they maintain a constant relationship. e.g., [1.18.scm](1.18.scm)
 
 ### 1.3.3
 A function's **fixed point** is the value `x` for which `f(x) = x`. (In [Smullyan's terms](https://github.com/david-davidson/to-mock-a-mockingbird), `f` is fond of `x`.)
