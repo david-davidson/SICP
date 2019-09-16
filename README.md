@@ -9,6 +9,7 @@ Likewise, I'm skipping certain exercises: in particular, those that assume enoug
 
 ### Contents
 * [Chapter 1](chapters/1)
+* [Chapter 2](chapters/2)
 
 ### Getting started
 To install Scheme (on Mac), run:
