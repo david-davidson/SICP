@@ -17,4 +17,4 @@ For example:
     (lambda (x)
         (f (f x))))) ; Two calls to `f`
 ```
-See [2.6.scm](2.6.scm) for arithmetic.
+See [2.6.scm](2.6.scm) for the book's code challenges, plus [more-lambda-arithmetic.scm](more-lambda-arithmetic.scm) for multiplication/subtraction and [more-lambda-booleans.scm](more-lambda-booleans.scm) for booleans and control flow.
