@@ -1,5 +1,8 @@
 # Notes
 
+### 2.1.0
+*Data abstraction* enables us to separate how data is used from the particulars of how it is constructed and represented. Our programs can operate on "abstract data," with the concrete data implementation hidden. *Selectors* and *constructors* read from and write to the concrete data representation. They form *abstraction barriers*, beyond which implementation details can be ignored.
+
 ### 2.1.3
 Church numerals, from the lambda calculus, represent numbers via functions. (Indeed, the lambda calculus can express _all computation_ via functions.) A church numeral has the signature `f -> x -> any`, where `f` is an arbitrary function and `x` is an arbitrary value. A numeral representing the value `n` simply invokes `f` `n` times, starting with `x` as the input and passing the result through the remaining calls to `f`. (The final return value is `any` because we have no notion of what `(f x)` returns in the first place, let alone `(f (f x))` or larger numbers.)
 
