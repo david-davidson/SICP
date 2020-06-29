@@ -28,7 +28,7 @@ Church booleans return their first argument to signify true. That means the Kest
 
 To build `false`/`second`, we need something like `(lambda (on-true) (lambda (on-false) on-false))`:
 a function that always returns its second argument. As it happens, we can build that using just `K`
-and `I`. Like this: `((K I) y) => (I y) => y`. (`(K I)`, by the way, is the KI combinator, or Kite.)
+and `I`. Like this: `(((K I) x) y) => (I y) => y`. (`(K I)`, by the way, is the KI combinator, or Kite.)
 
 The latter form isn't as "obvious," but it's theoretically interesting in that it helps us reason
 about what the minimal base of combinators is that can express arbitrary computation.
