@@ -1,0 +1,49 @@
+# Notes
+
+## Streams
+> We can describe the time-varying behavior of a quantity _x_ as a function of time _x(t)_. If we concentrate on _x_ instant by instant, we think of it as a changing quantity. Yet if we concentrate on the entire time history of values, we do not emphasize change—the function itself does not change.
+
+A stream is simply a sequence (like a list) with delayed evaluation, which supports large (or infinite) structures. Streams let us model state immutably, as a series of values.
+
+### 3.5.1
+The vanilla sequence operations (`map`, `filter`, `accumulate`) come at the price of inefficiency, particularly over large data sets: in each transformation, we create and discard a new list.
+
+As a straw man, let's compute the second prime in the interval from 10,000 to 1,000,000:
+```scm
+(car (cdr (filter prime?
+                  (enumerate-interval 10000 1000000))))
+```
+This builds a list of almost a million items, filters it, and throws away almost all of it. (In a more imperative style, we would interleave enumeration and filtering, and bail early.)
+
+With streams, we'll evaluate list items lazily, avoiding most of this work. We'll use stream equivalents to the standard sequence operations, like `stream-filter`—see [stream-basics.scm](stream-basics.scm) for implementations (though these primitives are built into Scheme).
+
+The trick is that the `cdr` of a stream is evaluated not at _construction_-time (via `cons-stream`) but at _selection_-time (via `stream-cdr`). This happens via the special form `(delay <expr>)`, which "promises" to evaluate its expression later. In turn, `(force <delayed expr>)` performs that evaluation. (Note that both `delay` and `cons-stream` must be special forms: otherwise, under applicative-order evaluation, `(cons-stream x y)` would evaluate `y`, which is exactly what we wish to avoid!)
+
+Let's step through that second-prime code again, this time with streams:
+```scm
+(stream-car (stream-cdr (stream-filter prime?
+                                       (stream-enumerate-interval 10000 1000000))))
+```
+`stream-filter` (see [stream-basics.scm](stream-basics.scm)) tests the `car` and, in case of failure, keeps recursing down the input stream, each time forcing the `cdr`. The input stream (produced by `stream-enumerate-interval`) first looks like:
+```scm
+(cons 10000
+      (delay (stream-enumerate-interval 10001 1000000)))
+```
+One step later, it looks like:
+```scm
+(cons 10001
+      (delay (stream-enumerate-interval 10002 1000000)))
+```
+...and so on. With each tick (where the filter predicate fails), `stream-filter` and `stream-enumerate-interval` advance a step, bouncing control back and forth.
+
+When `stream-filter` reaches 10,007, though, it finds a prime and "stops," returning...
+```scm
+(cons-stream (stream-car seq)
+             (stream-filter pred (stream-cdr seq)))
+```
+...to `stream-cdr` in the original expression. (The first item in the `cons-stream` pair is 10,007; the second, the promise of further evaluation.) `stream-cdr` forces that second item—the delayed `stream-filter` call—which resumes forcing `stream-enumerate-interval` until it finds another prime: 10,009. This gets returned to the outermost `stream-car`, which returns our answer!
+
+As _SICP_ puts it,
+> we can think of delayed evaluation as "demand-driven" programming, whereby each stage in the stream process is activated only enough to satisy the next stage.
+
+But note that the order of operations here is not _fully_ "demand-driven" (or "outside-in"): above, the first code that runs is `stream-enumerate-interval` and `stream-filter`, together incrementally forcing the stream until that first prime. At the first prime, `stream-cdr` runs, followed by another enumerate/filter sequence until the second prime, after which `stream-car` completes. So, we're still running _somewhat_ "inside-out," as under strict evaluation. Unlike strict evaluation, though, this version iterates through only the nine items it needs, not the million-item list.
