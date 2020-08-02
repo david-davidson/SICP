@@ -84,3 +84,36 @@ We can even do this with Fibonaccis, represented here as a stream beginning with
                                        (add-streams fibs
                                                     (stream-cdr fibs)))))
 ```
+### 3.5.3: exploiting stream paradigms
+In [exercise 1.7])(../1/1.7.scm), we found square roots by iteratively improving a guess, represented as a state variable. With streams, we can generate those guesses as a stream, using the same trick of "stream that starts with 1 and maps over itself, offset by 1"...
+```scm
+(define (sqrt-improve guess x)
+    (average guess (/ x guess)))
+
+(define (sqrt-stream x)
+    (define guesses (cons-stream 1.0
+                                 (stream-map (lambda (guess)
+                                    (sqrt-improve guess x))
+                                 guesses)))
+    guesses)
+```
+
+...Or express a stream of better and better approximations of pi:
+```scm
+; From formula π/4 = 1 - 1/3 + 1/5 - 1/7 + ...
+(define pi-stream (scale-stream (partial-sums (pi-summands 1))
+                                4))
+```
+(☝️ See [pi.scm](pi.scm) for the full implementation of this.)
+
+That pi stream converges on pi correctly but slowly: the 10th and 11th values are bound betweeen `3.0418...` and `3.2323...`. One interesting thing we can do is transform the stream with a *sequence accelerator*, which converts a sequence of approximations to a new sequence that converges on the same value, only faster.
+
+Euler offers a formula for this, well-suited for sequences (like `pi-summands` above) that are partial sums of series with alternating signs. If `S(n)` is the `nth` item in the original sequence, the accelerated sequence matches:
+```
+S(n+1) = ((S(n+1) - S(n)) ^ 2) /
+         (S(n - 1) - 2(S(n)) + S(n + 1))
+```
+As it happens, we can do two fascinating things:
+* Map this transformation over `pi-stream` to create a new, accelerated stream
+* Accelerate the stream recursively: create a "tableau" (stream of streams) where each stream accelerates its predecessor
+See [sequence-accelerators.scm](sequence-accelerators.scm) for implementation!
