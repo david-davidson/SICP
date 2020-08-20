@@ -28,14 +28,21 @@
           (else
             (stream-filter pred (stream-cdr seq)))))
 
+(define (display-line x)
+    (newline)
+    (display x))
+
+; Util for viewing streams -- don't use this on infinite ones!
+(define (display-stream seq)
+    (stream-for-each display-line seq))
 ; --------------------------------------------------------------------------------------------------
 
 (define (stream-enumerate-interval low high)
     (if (> low high)
-        the-empty-stream)
+        the-empty-stream
         (cons-stream low
-                     (stream-enumerate-interval (+ low 1) high)))
+                     (stream-enumerate-interval (+ low 1) high))))
 
 ; Returns 10,009:
 (display (stream-car (stream-cdr (stream-filter prime?
-                                 (stream-enumerate-interval 10000 1000000)))))
+                                               (stream-enumerate-interval 10000 1000000)))))

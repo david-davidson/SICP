@@ -19,8 +19,6 @@ We want to solve for p' and q' and use them to transform the pair of numbers, as
 transformation. The challenge is to define `next-p` (p') and `next-q` (q') in the below algorithm.
 |#
 
-(define (even? n) (= (remainder n 2) 0))
-
 (define (fib n)
     (define (iter a b p q count)
         (cond ((= count 0) b)

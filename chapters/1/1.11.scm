@@ -13,14 +13,14 @@
 ; The iterative form is a headache! We track the previous values at n-1, n-2, and n-3, relying on
 ; fact that (from the base case) we can initialize those to 2, 1, and 0.
 (define (f-iter n)
-    (define (iter idx prev-val-1 prev-val-2 prev-val-3)
-        (let ((current-val (+ prev-val-1
-                              (* 2 prev-val-2)
-                              (* 3 prev-val-3))))
-             (if (= idx n)
-                 current-val
-                 (iter (+ idx 1)
-                       current-val ; next prev-val-1
+    (define (iter counter prev-val-1 prev-val-2 prev-val-3)
+        (let ((next-val (+ prev-val-1
+                           (* 2 prev-val-2)
+                           (* 3 prev-val-3))))
+             (if (= counter n)
+                 next-val
+                 (iter (+ counter 1)
+                       next-val ; next prev-val-1
                        prev-val-1
                        prev-val-2))))
     (if (< n 3)

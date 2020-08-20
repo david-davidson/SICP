@@ -7,7 +7,7 @@
 ; --------------------------------------------------------------------------------------------------
 
 ; `pi-summands` expresses the `1 - 1/3 + 1/5 - ...` pattern. The hard part is "flipping" the +/-
-; sign -- it's not hard to do, just hard to understand the tricky implementation!
+; sign -- it's not hard to do, just hard to understand the example implementation!
 ; Basically, with each step's use of `stream-map`, each step adds an _additional_ call to `-`:
 ; - The first entry, 1, is not mapped against `-`: it's positive
 ; - The second, 1/3, is mapped against `-` once (when n is 3): negative
@@ -21,11 +21,11 @@
 ; - For the stream to be *π's* summands, it is tightly coupled to that initial value of 1. `n`
 ;   should not (initially) be an argument -- `(pi-summands 2)` is meaningless!
 ; - The use of `stream-map` to toggle sign is too clever for its own good: both hard (for me) to
-;   intuit, and unperformant. (Note that, for the 10th summand, it calls `-` 9 times, almost all of
-;   them redundant.)
+;   intuit, and unperformant. (Note that, for the 10th summand alone, it calls `-` 9 times, almost
+;   all of them redundant.)
 ; Instead, I'd write something like this, with the sign-toggling explicit and the initial 1
 ; hard-coded:
-(define (mi-pi-summands)
+(define (my-pi-summands)
     (define (iter n is-positive)
         (let ((next-summand (/ 1.0 n)))
             (cons-stream (if is-positive next-summand (- next-summand))

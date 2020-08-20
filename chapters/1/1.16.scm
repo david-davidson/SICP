@@ -17,9 +17,6 @@ successive squaring is O(log(N))
           (else (* b (expt-recur b
                                  (- n 1))))))
 
-(define (even? n)
-    (= (remainder n 2) 0))
-
 ; --------------------------------------------------------------------------------------------------
 ; Exercise: express successive squaring in an iterative algorithm
 ; --------------------------------------------------------------------------------------------------

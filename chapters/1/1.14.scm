@@ -15,7 +15,7 @@ equals
 (define (count-change amount)
     (count-change-recur amount 5))
 
-(define (first-denomination num-kinds-of-coins)
+(define (get-denomination num-kinds-of-coins)
     (cond ((= num-kinds-of-coins 1) 1)
           ((= num-kinds-of-coins 2) 5)
           ((= num-kinds-of-coins 3) 10)
@@ -28,7 +28,7 @@ equals
           (else (+ (count-change-recur amount
                                        (- num-kinds-of-coins 1))
                    (count-change-recur (- amount
-                                          (first-denomination num-kinds-of-coins))
+                                          (get-denomination num-kinds-of-coins))
                                        num-kinds-of-coins)))))
 
 ; --------------------------------------------------------------------------------------------------

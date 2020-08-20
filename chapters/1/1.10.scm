@@ -14,19 +14,50 @@
 (A 2 4) ; 65536
 (A 3 3) ; 65536
 
-; Now consider the following functions, defined in terms of `A`...
-(define (f n) (A 0 n))
-
-(define (g n) (A 1 n))
-
-(define (h n) (A 2 n))
-
 ;---------------------------------------------------------------------------------------------------
-; What are the mathematical equivalents of these functions?
+; Now consider the following functions, defined in terms of `A`.
+; What are their mathematical equivalents?
 ;---------------------------------------------------------------------------------------------------
 
-; (f n) => 2n
+(define (f n) (A 0 n)) ; 2n
+#|
+With x bound to 0, this one immediately hits the `((= x 0) (* 2 y))` `cond` case.
+|#
 
-; (g n) => 2^n
+(define (g n) (A 1 n)); 2^n
+#|
+Hits `else`:
+```
+(A 0
+   (A 1 (- n 1)))
+```
+Eventually `(- n 1)` counts down to 1, returns 2:
+```
+(A 0
+    (A 0
+        (A 0
+            ...
+            (A 0 2))))
+```
+(A 0 x) => 2x; doubles each time it recurses
+Thus, 2^n!
+|#
 
-; (h n) => 2^(2^)(2^(...n - 1 times))
+(define (h n) (A 2 n)); 2^(2^(2^2)) (to depth n)
+#|
+Hits `else`:
+```
+(A 1
+   (A 2 (- n 1)))
+```
+Eventually `(- n 1)` counts down to 1, returns 2:
+```
+(A 1
+    (A 1
+        (A 1
+            ...
+            (A 1 2))))
+```
+(A 1 2) => 2^2: raises to 2nd power every time it recurses
+Thus, 2^(2^(2^2)) (to depth n)
+|#

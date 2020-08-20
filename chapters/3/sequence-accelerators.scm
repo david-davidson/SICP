@@ -2,24 +2,21 @@
 
 ; --------------------------------------------------------------------------------------------------
 ; Euler's accelerator transformation (see ch. 3 README):
-; S(n+1) = ((S(n+1) - S(n)) ^ 2) /
+; S(n+1) - ((S(n+1) - S(n)) ^ 2) /
 ;          (S(n - 1) - 2(S(n)) + S(n + 1))
 ; --------------------------------------------------------------------------------------------------
 
-; Scheme expression of the formula above. Note that we're running it in reverse: the original solves
-; from n to n+1, but we solve for n (by subtracting the result from n+1, which, because it's part of
-; the source stream, is known ahead of time).
-; Note, too, that by treating `(stream-ref seq 0)` as the n-1 value and (stream-ref seq 1)
-; as the n value, we start at index 1, offsetting the transformed sequence by 1. (This isn't
-; the source of the transformation's acceleration, just an interesting nuance.)
-(define (euler-formula s0 s1 s2)
-    (- s2 (/ (square (- s2 s1))
-             (+ s0 (* -2 s1) s2))))
+; Scheme expression of the formula above. Note that by treating `(stream-ref seq 0)` as the n-1 val
+; and (stream-ref seq 1) as the n val, we start at index 1, offsetting the transformed sequence by
+; 1. (This isn't the source of the transformation's acceleration, just an interesting nuance.)
+(define (euler-formula prev current next)
+    (- next (/ (square (- next current))
+               (+ prev (* -2 current) next))))
 
 (define (euler-transform seq)
-    (cons-stream (euler-formula (stream-ref seq 0) ; S(n-1)
-                                (stream-ref seq 1) ; S(n)
-                                (stream-ref seq 2)) ; S(n+1)
+    (cons-stream (euler-formula (stream-ref seq 0)
+                                (stream-ref seq 1)
+                                (stream-ref seq 2))
                  (euler-transform (stream-cdr seq))))
 
 (define euler-stream (euler-transform pi-stream))

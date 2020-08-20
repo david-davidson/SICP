@@ -1,17 +1,10 @@
+(load "chapters/1/1.17.scm") ; To import `double` and `halve`
+
 ; --------------------------------------------------------------------------------------------------
 ; In the spirit of 1.16, implement 1.17's O(log(N)) strategy for integer multiplication... but
 ; iteratively
 ; --------------------------------------------------------------------------------------------------
 ; (As a reminder, we can use addition plus `even`, `double`, and `halve` utils)
-
-(define (even? n)
-    (= (remainder n 2) 0))
-
-(define (double n)
-    (+ n n))
-
-(define (halve n)
-    (/ n 2))
 
 (define (fast-mult-iter x y)
     (define (iter a x y)
