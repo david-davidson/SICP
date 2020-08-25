@@ -63,3 +63,5 @@ A good generic strategy for converting algorithms from recursive to iterative: s
 
 ### 1.3.3
 A function's **fixed point** is the value `x` for which `f(x) = x`. (In [Smullyan's terms](https://github.com/david-davidson/to-mock-a-mockingbird), `f` is fond of `x`.)
+
+To search for fixed points, we can start with an arbitrary initial guess and run `f` on a sequence of subsequent guesses (`(f x)`, `(f (f x))`, `(f (f (f x)))`, etc.) until the guesses are within a given tolerance of each other. For an extended look at abstractions built on fixed-point search and higher-order functions, see [fixed-points.scm](fixed-points.scm).
