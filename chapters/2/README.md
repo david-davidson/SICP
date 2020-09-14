@@ -1,7 +1,9 @@
 # Notes
 
 ### 2.1.0
-*Data abstraction* enables us to separate how data is used from the particulars of how it is constructed and represented. Our programs can operate on "abstract data," with the concrete data implementation hidden. *Selectors* and *constructors* read from and write to the concrete data representation. They form *abstraction barriers*, beyond which implementation details can be ignored.
+**Data abstraction** enables us to separate how data is used from the particulars of how it is constructed and represented. Our programs can operate on "abstract data," with the concrete data implementation hidden. **Selectors** and **constructors** read from and write to the concrete data representation. They form **abstraction barriers**, beyond which implementation details can be ignored.
+
+**Compound data** ("glued" together as a conceptual unit) relies on the **closure property**, in which the results of an operation can themselves be combined using the same operation (e.g., a `cons` pair can be an element in another pair). (Here, "closure" is unrelated to the more familiar scope-related term.)
 
 ### 2.1.3
 Church numerals, from the lambda calculus, represent numbers via functions. (Indeed, the lambda calculus can express _all computation_ via functions.) A church numeral has the signature `f -> x -> any`, where `f` is an arbitrary function and `x` is an arbitrary value. A numeral representing the value `n` simply invokes `f` `n` times, starting with `x` as the input and passing the result through the remaining calls to `f`. (The final return value is `any` because we have no notion of what `(f x)` returns in the first place, let alone `(f (f x))` or larger numbers.)
@@ -9,8 +11,7 @@ Church numerals, from the lambda calculus, represent numbers via functions. (Ind
 For example:
 ```scm
 (define zero (lambda (f)
-    (lambda (x)
-        x))) ; No calls to `f`
+    (lambda (x) x))) ; No calls to `f`
 
 (define one (lambda (f)
     (lambda (x)
@@ -21,6 +22,8 @@ For example:
         (f (f x))))) ; Two calls to `f`
 ```
 See [2.6.scm](2.6.scm) for the book's code challenges, plus [more-lambda-arithmetic.scm](more-lambda-arithmetic.scm) for multiplication/subtraction and [more-lambda-booleans.scm](more-lambda-booleans.scm) for booleans and control flow.
+
+SICP notes—and the lambda calculus demonstrates—that higher-order functions (and closures, in the modern sense) are enough of a basis to model compound data.
 
 ### 2.2.3
 SICP uses the term "transducer," from [signal processing](https://en.wikipedia.org/wiki/Transducer), as a metaphor for how `map` transforms elements of a list. This is interesting, because "transducer" has picked up additional meaning over the years. I detoured from the book a little to implement transducers (in the modern sense) in Scheme.
