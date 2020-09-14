@@ -11,9 +11,9 @@
     (make-interval (+ (lower-bound x) (lower-bound y))
                    (+ (upper-bound x) (upper-bound y))))
 
-; Take the lower and upper bounds (min and max) of all the different products of bounds. (This
-; doesn't strike me as completely self-explanatory; it looks like we'll write an alternate
-; implementation later!)
+; Take the lower and upper bounds (min and max) of all the different products of bounds. This feels
+; a little indirect, but it accounts for things like negative numbers. In 2.11, we'll write a
+; version that checks signs and does less multiplication.
 (define (mul-interval x y)
     (let ((p1 (* (lower-bound x) (lower-bound y)))
           (p2 (* (lower-bound x) (upper-bound y)))

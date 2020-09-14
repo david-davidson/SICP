@@ -49,7 +49,6 @@
 ; --------------------------------------------------------------------------------------------------
 
 (define (make-rat n d)
-    (define (negative? x) (< x 0))
     (let ((greatest-divisor (gcd n d)))
         (let ((n-reduced (/ n greatest-divisor))
               (d-reduced (/ d greatest-divisor)))
