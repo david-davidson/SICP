@@ -8,13 +8,12 @@
         (if (= col-idx 0)
             (list empty-queens)
             (filter
-                (lambda (possible-solution)
-                    (safe? possible-solution))
+                safe?
                 (flatmap
                     (lambda (prev-queens)
                         (map (lambda (row-idx)
                                 (adjoin-position row-idx col-idx prev-queens))
-                             (enumerate-interval 1 board-size)))
+                             (enumerate-rows board-size)))
                     (queen-cols (- col-idx 1))))))
     (queen-cols board-size))
 
@@ -29,6 +28,9 @@
 
 (define (flatmap fn seq)
     (fold append '() (map fn seq)))
+
+(define (enumerate-rows size)
+    (enumerate-interval 1 size))
 
 ; --------------------------------------------------------------------------------------------------
 ; The problem: implement the remaining missing pieces, including data structures to represent
