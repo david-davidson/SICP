@@ -55,3 +55,6 @@ But what if you want to compose `map` and `filter` operations?
 This breaks immediately, because `is-even?` returns a boolean and `plus-one` expects an integer. The types can't be chained: `integer -> boolean`, `integer -> integer`.
 
 That's where transducers come in: they express `map` and `filter` in terms of `reduce`, in a way that lets you compose _all_ the operations into a single pass over the list. As a result, transducers are a good fit for lists that are extremely large, or even asynchronous/lazy. Check out [transducers.scm](transducers.scm) to see how they work.
+
+### 2.3.4
+After describing sets and trees as abstractions on top of lists, the book uses Huffman encoding as the basis for several exercises ([2.67](2.67.scm), [2.68](2.68.scm), [2.69](2.69.scm)). The use case is fascinating; I wrote about it [here](https://daviddavidson.website/huffman-encoding/).

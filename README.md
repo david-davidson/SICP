@@ -22,3 +22,6 @@ To load a particular exercise in the Scheme REPL, run:
 ```
 $ scheme -load <path/to/exercise>.scm
 ```
+
+### Going deeper
+I'm writing about a handful of favorite SICP themes at https://daviddavidson.website/tags/sicp/
