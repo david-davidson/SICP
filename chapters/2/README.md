@@ -56,5 +56,8 @@ This breaks immediately, because `is-even?` returns a boolean and `plus-one` exp
 
 That's where transducers come in: they express `map` and `filter` in terms of `reduce`, in a way that lets you compose _all_ the operations into a single pass over the list. As a result, transducers are a good fit for lists that are extremely large, or even asynchronous/lazy. Check out [transducers.scm](transducers.scm) to see how they work.
 
+### 2.3.3
+This section implements sets first as unordered lists, then as ordered lists, then as binary search trees—each time with an improvement in performance. The tree implementation is particularly cool because (as a footnote mentions) we're implementing sets in terms of trees, and trees in terms of lists—a testament to the power of data abstraction. See problems [2.61](2.61.scm) through [2.65](2.65.scm).
+
 ### 2.3.4
 After describing sets and trees as abstractions on top of lists, the book uses Huffman encoding as the basis for several exercises ([2.67](2.67.scm), [2.68](2.68.scm), [2.69](2.69.scm)). The use case is fascinating; I wrote about it [here](https://daviddavidson.website/huffman-encoding/).
