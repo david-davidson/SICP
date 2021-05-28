@@ -11,6 +11,7 @@ Likewise, I'm skipping certain exercises: in particular, those that involve enou
 * [Chapter 1](chapters/1)
 * [Chapter 2](chapters/2)
 * [Chapter 3](chapters/3)
+* [Chapter 4](chapters/4)
 
 ### Getting started
 To install Scheme (on Mac), run:
